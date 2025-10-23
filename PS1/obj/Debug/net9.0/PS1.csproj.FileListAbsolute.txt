@@ -1,0 +1,15 @@
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\bin\Debug\net9.0\PS1.exe
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\bin\Debug\net9.0\PS1.deps.json
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\bin\Debug\net9.0\PS1.runtimeconfig.json
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\bin\Debug\net9.0\PS1.dll
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\bin\Debug\net9.0\PS1.pdb
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.AssemblyInfoInputs.cache
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.AssemblyInfo.cs
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.csproj.CoreCompileInputs.cache
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.sourcelink.json
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.dll
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\refint\PS1.dll
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.pdb
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\PS1.genruntimeconfig.cache
+C:\Users\kggra\Documents\GIT\Algorytmy_SEM_III\PS1\obj\Debug\net9.0\ref\PS1.dll

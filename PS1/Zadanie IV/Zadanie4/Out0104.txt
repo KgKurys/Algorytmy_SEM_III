@@ -1,5 +1,0 @@
-11 5
-0 2
-3 4
-7 12
-liczba bezpiecznych pasm: 3

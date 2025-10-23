@@ -1,0 +1,3 @@
+n=8 k=3
+SN1 = 56, liczba operacji = 15
+SN5 = 56, liczba operacji = 21
