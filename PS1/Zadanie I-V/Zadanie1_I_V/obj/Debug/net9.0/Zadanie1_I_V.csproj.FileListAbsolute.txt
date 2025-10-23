@@ -1,0 +1,15 @@
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\bin\Debug\net9.0\Zadanie1_I_V.exe
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\bin\Debug\net9.0\Zadanie1_I_V.deps.json
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\bin\Debug\net9.0\Zadanie1_I_V.runtimeconfig.json
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\bin\Debug\net9.0\Zadanie1_I_V.dll
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\bin\Debug\net9.0\Zadanie1_I_V.pdb
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.AssemblyInfoInputs.cache
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.AssemblyInfo.cs
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.csproj.CoreCompileInputs.cache
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.sourcelink.json
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.dll
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\refint\Zadanie1_I_V.dll
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.pdb
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\Zadanie1_I_V.genruntimeconfig.cache
+C:\Users\kggra\Documents\GitHub\Algorytmy_SEM_III\PS1\Zadanie I-V\Zadanie1_I_V\obj\Debug\net9.0\ref\Zadanie1_I_V.dll
