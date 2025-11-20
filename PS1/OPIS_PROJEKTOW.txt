@@ -1,0 +1,852 @@
+================================================================================
+                    OPIS ALGORYTMÓW - ALGORYTMY SEM III
+                          Problem Set 1 (PS1)
+                     TEORIA I ANALIZA ALGORYTMÓW
+================================================================================
+
+================================================================================
+ZADANIE I-V: SYMBOL NEWTONA (DWUMIAN NEWTONA)
+================================================================================
+
+DEFINICJA MATEMATYCZNA:
+  Symbol Newtona C(n,k) lub (n k) określa liczbę k-elementowych 
+  podzbiorów zbioru n-elementowego.
+  
+  Wzór podstawowy: C(n,k) = n! / (k! × (n-k)!)
+  
+  gdzie n! (silnia) = 1 × 2 × 3 × ... × n
+
+WŁAŚCIWOŚCI MATEMATYCZNE:
+  1. C(n,0) = 1       (jeden sposób wybrania pustego zbioru)
+  2. C(n,n) = 1       (jeden sposób wybrania wszystkich elementów)
+  3. C(n,k) = C(n,n-k) (symetria)
+  4. C(n,k) = C(n-1,k-1) + C(n-1,k)  (własność rekurencyjna)
+
+KONTEKST KOMBINATORYCZNY:
+  "Na ile sposobów można wybrać k elementów z n dostępnych?"
+  
+  Przykład: Z grupy 5 osób wybieramy 2-osobową delegację
+  C(5,2) = 10 możliwych kombinacji
+
+ALGORYTM I - SN1: OBLICZANIE Z DEFINICJI
+────────────────────────────────────────────────────────────────────────
+
+IDEA:
+  Bezpośrednie obliczenie wzoru C(n,k) = n! / (k! × (n-k)!)
+
+KROKI ALGORYTMU:
+  1. Oblicz silnię licznika: n!
+  2. Oblicz silnię pierwszego mianownika: k!
+  3. Oblicz silnię drugiego mianownika: (n-k)!
+  4. Oblicz iloczyn mianowników: k! × (n-k)!
+  5. Podziel licznik przez mianownik: n! / (k! × (n-k)!)
+
+PRZYKŁAD WYKONANIA dla C(5,2):
+  Krok 1: 5! = 1×2×3×4×5 = 120
+  Krok 2: 2! = 1×2 = 2
+  Krok 3: (5-2)! = 3! = 1×2×3 = 6
+  Krok 4: 2! × 3! = 2 × 6 = 12
+  Krok 5: 120 / 12 = 10
+  
+  Wynik: C(5,2) = 10
+
+ANALIZA ZŁOŻONOŚCI:
+  Złożoność czasowa: Θ(n)
+    - Obliczanie n!: n-1 mnożeń
+    - Obliczanie k!: k-1 mnożeń  
+    - Obliczanie (n-k)!: n-k-1 mnożeń
+    - Łącznie: O(n) operacji arytmetycznych
+  
+  Złożoność pamięciowa: Θ(1)
+    - Wymaga tylko stałej liczby zmiennych
+    - Nie używa dodatkowych struktur danych
+
+ZALETY:
+  ✓ Prosty i intuicyjny
+  ✓ Bezpośrednio wynika z definicji matematycznej
+  ✓ Mała złożoność pamięciowa
+  ✓ Szybki dla małych wartości n
+
+WADY:
+  ✗ Podatny na przepełnienie (overflow) dla dużych n
+  ✗ Wartości silni rosną bardzo szybko (n! > 10^18 dla n > 20)
+  ✗ Wymaga dużej precyzji arytmetycznej
+  ✗ Nieefektywny - oblicza dużo wartości, które się skracają
+
+OPTYMALIZACJE:
+  • Można skrócić przed obliczeniem:
+    C(n,k) = n×(n-1)×...×(n-k+1) / k!
+    (tylko k czynników w liczniku zamiast całej silni)
+  
+  • Wykorzystać symetrię: jeśli k > n/2, oblicz C(n, n-k)
+
+
+ALGORYTM II - SN5: PROGRAMOWANIE DYNAMICZNE (TRÓJKĄT PASCALA)
+────────────────────────────────────────────────────────────────────────
+
+IDEA:
+  Wykorzystanie własności rekurencyjnej:
+  C(n,k) = C(n-1,k-1) + C(n-1,k)
+  
+  Budowanie rozwiązania "od dołu" (bottom-up) poprzez wypełnianie
+  tablicy wartości dla kolejnych podproblemów.
+
+TRÓJKĄT PASCALA:
+  Wizualizacja struktury wartości C(n,k):
+  
+  n\k    0    1    2    3    4    5
+   0     1
+   1     1    1
+   2     1    2    1
+   3     1    3    3    1
+   4     1    4    6    4    1
+   5     1    5   10   10    5    1
+   
+  Każda wartość = suma dwóch wartości nad nią
+
+MATEMATYCZNE UZASADNIENIE:
+  Dowód własności rekurencyjnej:
+  
+  Rozważmy zbiór n-elementowy i ustalony element x.
+  Podzbiory k-elementowe dzielą się na dwie grupy:
+  
+  1. Zawierające x: C(n-1, k-1) sposobów
+     (wybieramy k-1 spośród pozostałych n-1)
+  
+  2. Niezawierające x: C(n-1, k) sposobów
+     (wybieramy k spośród pozostałych n-1)
+  
+  Stąd: C(n,k) = C(n-1,k-1) + C(n-1,k)
+
+KROKI ALGORYTMU:
+  1. Utwórz tablicę T[n+1][k+1]
+  2. Dla i = 0 do n:
+       Dla j = 0 do min(i,k):
+         Jeśli j = 0 lub j = i:
+           T[i][j] = 1              (warunki brzegowe)
+         W przeciwnym razie:
+           T[i][j] = T[i-1][j-1] + T[i-1][j]  (rekurencja)
+  3. Zwróć T[n][k]
+
+PRZYKŁAD WYKONANIA dla C(5,2):
+  
+  Budowanie tablicy (pokazuję tylko potrzebną część):
+  
+  i=0: T[0][0] = 1
+  i=1: T[1][0] = 1, T[1][1] = 1
+  i=2: T[2][0] = 1, T[2][1] = T[1][0]+T[1][1] = 2, T[2][2] = 1
+  i=3: T[3][0] = 1, T[3][1] = T[2][0]+T[2][1] = 3, T[3][2] = T[2][1]+T[2][2] = 3
+  i=4: T[4][0] = 1, T[4][1] = 4, T[4][2] = T[3][1]+T[3][2] = 6
+  i=5: T[5][0] = 1, T[5][1] = 5, T[5][2] = T[4][1]+T[4][2] = 10
+  
+  Wynik: T[5][2] = 10
+
+ANALIZA ZŁOŻONOŚCI:
+  Złożoność czasowa: Θ(n × k)
+    - Wypełniamy tablicę (n+1) × (k+1)
+    - Dla każdej komórki: stała liczba operacji
+    - Łącznie: O(n×k) operacji
+  
+  Złożoność pamięciowa: Θ(n × k)
+    - Tablica (n+1) × (k+1) komórek
+    - Można zoptymalizować do O(k) używając tylko dwóch wierszy
+
+ZALETY:
+  ✓ Unika problemów z przepełnieniem (wartości rosną stopniowo)
+  ✓ Każda wartość pośrednia jest poprawna
+  ✓ Można obliczyć wszystkie C(i,j) dla i≤n, j≤k
+  ✓ Programowanie dynamiczne - unika powtarzających się obliczeń
+  ✓ Stabilny numerycznie
+
+WADY:
+  ✗ Większa złożoność pamięciowa O(n×k)
+  ✗ Wolniejszy dla małych n (narzut tworzenia tablicy)
+  ✗ Mniej intuicyjny niż wzór z definicji
+
+OPTYMALIZACJE:
+  • Wystarczą dwa wiersze tablicy (bieżący i poprzedni): O(k) pamięci
+  • Wykorzystanie symetrii: obliczamy tylko połowę tablicy
+  • Przechowywanie tylko wartości od 0 do min(k, n-k)
+
+PORÓWNANIE ALGORYTMÓW SN1 vs SN5:
+────────────────────────────────────────────────────────────────────────
+
+ASPEKT          | SN1 (Z DEFINICJI)    | SN5 (TRÓJKĄT PASCALA)
+─────────────────────────────────────────────────────────────────────────
+Czas            | Θ(n)                 | Θ(n×k)
+Pamięć          | Θ(1)                 | Θ(n×k) lub Θ(k)*
+Overflow        | Problem dla n>20     | Bezpieczniejszy
+Intuicyjność    | Wysoka               | Średnia
+Implementacja   | Prosta               | Umiarkowana
+Stabilność num. | Niska                | Wysoka
+Dla małych n    | Lepszy               | Gorszy (narzut)
+Dla dużych n    | Nie działa           | Działa dobrze
+Wielokrotne C   | Trzeba liczyć znowu  | Wszystkie naraz
+
+* przy optymalizacji pamięci
+
+WYBÓR ALGORYTMU:
+  • SN1: gdy n ≤ 20 i obliczamy pojedyncze wartości
+  • SN5: gdy n > 20 lub obliczamy wiele wartości C(i,j)
+
+
+ODPOWIEDZI NA PYTANIA TEORETYCZNE:
+────────────────────────────────────────────────────────────────────────
+
+Q: Dlaczego C(n,0) = 1?
+A: Zbiór pusty ∅ jest jedynym 0-elementowym podzbiorem każdego zbioru.
+   Matematycznie: 0! = 1 (z definicji), więc n!/(0!×n!) = 1.
+
+Q: Dlaczego C(n,k) = C(n,n-k)?
+A: Wybór k elementów do włączenia = wybór n-k elementów do wykluczenia.
+   To dwie strony tego samego podziału. Matematycznie:
+   C(n,k) = n!/(k!×(n-k)!) = n!/((n-k)!×k!) = C(n,n-k)
+
+Q: Jaki jest związek między symbolem Newtona a dwumianem Newtona?
+A: Wzór dwumianu Newtona:
+   (a+b)^n = Σ(k=0 do n) C(n,k) × a^(n-k) × b^k
+   Współczynniki C(n,k) określają potęgi wyrazów w rozwinięciu.
+
+Q: Dlaczego silnie rosną tak szybko?
+A: Tempo wzrostu: n! ≈ √(2πn) × (n/e)^n (wzór Stirlinga)
+   Przykłady: 10! = 3,628,800 ; 20! ≈ 2.4×10^18
+   To silniejszy wzrost niż wykładniczy!
+
+Q: Jak obliczyć C(100,50) bez overflow?
+A: Metody:
+   1. Użyć SN5 (programowanie dynamiczne)
+   2. Użyć logarytmów: log C(n,k) = log n! - log k! - log(n-k)!
+   3. Skracać podczas mnożenia w SN1
+   4. Arytmetyka wysokiej precyzji (BigInteger)
+
+Q: Ile wynosi suma wszystkich C(n,k) dla k od 0 do n?
+A: Σ(k=0 do n) C(n,k) = 2^n
+   Interpretacja: liczba wszystkich podzbiorów zbioru n-elementowego.
+   Dowód: podstaw a=b=1 do wzoru dwumianu Newtona.
+
+Q: Jaka jest średnia wartość C(n,k) dla wszystkich k?
+A: Średnia = 2^n / (n+1)
+   Ale C(n,k) jest maksymalne dla k ≈ n/2, gdzie C(n,n/2) ≈ 2^n/√n
+
+Q: Czy można obliczyć C(n,k) w czasie O(1)?
+A: Nie w sensie praktycznym. Teoretycznie można użyć prekalkulacji
+   i wyszukiwania w tablicy, ale to wymaga O(n^2) pamięci i czasu
+   na przygotowanie.
+
+
+================================================================================
+ZADANIE II: GENEROWANIE ZBIORÓW 2-ELEMENTOWYCH
+================================================================================
+================================================================================
+
+LOKALIZACJA:
+  PS1\Zadanie II\Zadanie2\
+
+OPIS PROBLEMU:
+  Generowanie wszystkich 2-elementowych podzbiorów ze zbioru {1, 2, ..., k}
+  różnych liczb naturalnych z przedziału [1,k] gdzie 1 ≤ k ≤ 150.
+  
+  Dla k=4: zbiór {1,2,3,4} ma 6 podzbiorów 2-elementowych:
+  {1,2}, {1,3}, {1,4}, {2,3}, {2,4}, {3,4}
+
+ALGORYTM:
+  
+  Metoda: Iteracyjna generacja wszystkich par
+  
+  Logika:
+  - Dla każdego i od 1 do k:
+    - Dla każdego j od i+1 do k:
+      - Generuj parę (i, j)
+  - Pary są generowane w kolejności leksykograficznej
+  - Gwarantuje brak duplikatów (i < j)
+  
+  Złożoność czasowa: O(k²)
+  Liczba wygenerowanych par: C(k,2) = k×(k-1)/2
+  
+  Przykład dla k=4:
+    1. Para (1,2)
+    2. Para (1,3)
+    3. Para (1,4)
+    4. Para (2,3)
+    5. Para (2,4)
+    6. Para (3,4)
+
+FORMAT PLIKÓW:
+  
+  Input (In0102.txt):
+    // n k
+    8
+    4
+    0
+    60
+  
+  Output (Out0102.txt):
+    8
+    1 2
+    1 3
+    ...
+    7 8
+    4
+    1 2
+    1 3
+    1 4
+    2 3
+    2 4
+    3 4
+    0
+
+SPOSÓB WYKONANIA:
+  1. Przejdź do katalogu:
+     cd "PS1\Zadanie II\Zadanie2"
+  
+  2. Uruchom program:
+     dotnet run
+  
+  3. Wyniki zostaną zapisane w pliku Out0102.txt
+
+PRZYKŁADOWE WYNIKI:
+  k=4:  6 par
+  k=8:  28 par
+  k=56: 1540 par
+  k=0:  0 par (zbiór pusty)
+
+ODPOWIEDZI NA MOŻLIWE PYTANIA:
+
+Q1: Ile dokładnie par zostanie wygenerowanych dla danego k?
+A1: Liczba par = C(k,2) = k×(k-1)/2
+    Przykłady:
+    - k=4:  4×3/2 = 6 par
+    - k=10: 10×9/2 = 45 par
+    - k=100: 100×99/2 = 4,950 par
+
+Q2: Dlaczego pary są wypisywane w takiej kolejności?
+A2: Program generuje pary w kolejności leksykograficznej (słownikowej):
+    - Najpierw wszystkie pary zaczynające się od 1: (1,2), (1,3), (1,4)...
+    - Potem od 2: (2,3), (2,4), (2,5)...
+    - I tak dalej. To standardowa kolejność dla kombinacji.
+
+Q3: Co się stanie dla k=0 lub k=1?
+A3: - k=0: Brak par (zbiór pusty nie ma podzbiorów 2-elementowych)
+    - k=1: Brak par (ze zbioru {1} nie można wybrać 2 elementów)
+    Program poprawnie zwraca 0 par.
+
+Q4: Czy program może generować 3-elementowe lub k-elementowe podzbiory?
+A4: Obecna implementacja jest specyficzna dla 2-elementowych podzbiorów.
+    Można ją uogólnić modyfikując logikę zagnieżdżonych pętli lub 
+    implementując rekurencyjny algorytm generowania kombinacji.
+
+Q5: Jak długo trwa generowanie par dla dużego k (np. k=150)?
+A5: Dla k=150: C(150,2) = 11,175 par
+    Czas: < 1 sekunda (algorytm O(k²) jest bardzo szybki)
+    Plik wyjściowy: ~110 KB
+
+Q6: Czy kolejność elementów w parze ma znaczenie?
+A6: Nie - program generuje nieupорządkowane pary (kombinacje, nie permutacje).
+    Para (2,5) jest taka sama jak (5,2), więc generujemy tylko jedną wersję
+    z mniejszym elementem na pierwszej pozycji.
+
+Q7: Jak mogę zweryfikować poprawność wyników?
+A7: Sprawdź wzór: C(k,2) = k×(k-1)/2
+    Policz linie w pliku wyjściowym (pomijając k i puste linie).
+    Przykład: dla k=8 powinno być 28 linii z parami.
+
+Q8: Co to znaczy, że pary są "bezpowtórzeniowe"?
+A8: Każda para (i,j) pojawia się dokładnie raz. Algorytm zapewnia to przez
+    warunek i < j - nigdy nie wygeneruje (3,2) jeśli już jest (2,3).
+
+
+================================================================================
+ZADANIE IV: SEJF KRÓLA BAJDOCJI - ALGORYTM ZNAJDOWANIA BEZPIECZNYCH PASM
+================================================================================
+
+LOKALIZACJA:
+  PS1\Zadanie IV\Zadanie4\
+
+DEFINICJA PROBLEMU:
+  Dany:
+  - Korytarz długości n metrów (1 ≤ n ≤ 10000)
+  - m prętów laserowych zainstalowanych w suficie
+  - Każdy pręt zajmuje pewien przedział pozycji
+  
+  Znaleźć: Wszystkie przedziały [y1, y2) wolne od prętów (bezpieczne pasma)
+
+FORMALIZACJA MATEMATYCZNA:
+  Dane wejściowe:
+  - n ∈ ℕ: długość korytarza (dyskretna przestrzeń {0,1,2,...,n-1})
+  - L = {p1, p2, ..., pm}: lista pozycji prętów, gdzie pi ∈ {0,1,...,n-1}
+  
+  Dane wyjściowe:
+  - Zbiór przedziałów I = {[a1,b1), [a2,b2), ..., [ak,bk)} gdzie:
+    * Każdy przedział [ai,bi) nie zawiera żadnego pręta
+    * Przedziały są rozłączne i maksymalne
+    * ∀i: ai < bi
+    * Przedziały są uporządkowane: a1 < b1 ≤ a2 < b2 ≤ ...
+
+PRZYKŁAD:
+  n = 11, pręty na pozycjach: {2, 4, 5, 6}
+  
+  Wizualizacja:
+  Pozycja: 0  1  2  3  4  5  6  7  8  9  10
+  Status:  .  .  X  .  X  X  X  .  .  .  .
+  
+  Gdzie: . = wolne, X = pręt
+  
+  Bezpieczne pasma:
+  - [0, 2): pozycje {0, 1}      - długość 2
+  - [3, 4): pozycja {3}         - długość 1
+  - [7, 11): pozycje {7,8,9,10} - długość 4
+  
+  Liczba bezpiecznych pasm: 3
+  Łączna długość bezpiecznych pasm: 2+1+4 = 7 metrów
+
+ALGORYTM: MAPOWANIE I SKANOWANIE LINIOWE
+────────────────────────────────────────────────────────────────────────
+
+IDEA:
+  1. Reprezentacja przestrzeni: tablica boolean zajętości
+  2. Zaznaczenie wszystkich zajętych pozycji
+  3. Jednoprzebiegowe skanowanie w poszukiwaniu wolnych przedziałów
+
+PSEUDOKOD:
+  funkcja ZnajdzBezPieznePasma(n, pręty[]):
+    // Faza 1: Inicjalizacja
+    zajęte[0..n-1] ← false
+    
+    // Faza 2: Zaznaczanie zajętych pozycji
+    dla każdego p w pręty:
+      zajęte[p] ← true
+    
+    // Faza 3: Skanowanie i identyfikacja pasm
+    pasma ← pusta lista
+    start ← -1  // marker początku pasma
+    
+    dla i od 0 do n-1:
+      jeśli NIE zajęte[i]:  // pozycja wolna
+        jeśli start = -1:
+          start ← i  // początek nowego pasma
+      w przeciwnym razie:  // pozycja zajęta
+        jeśli start ≠ -1:
+          dodaj [start, i) do pasma
+          start ← -1
+    
+    // Faza 4: Zamknięcie ostatniego pasma (jeśli sięga końca)
+    jeśli start ≠ -1:
+      dodaj [start, n) do pasma
+    
+    zwróć pasma
+
+SZCZEGÓŁOWY PRZEBIEG dla n=11, pręty={2,4,5,6}:
+
+  Faza 1: zajęte = [F,F,F,F,F,F,F,F,F,F,F]
+  
+  Faza 2: Zaznaczanie
+    p=2: zajęte = [F,F,T,F,F,F,F,F,F,F,F]
+    p=4: zajęte = [F,F,T,F,T,F,F,F,F,F,F]
+    p=5: zajęte = [F,F,T,F,T,T,F,F,F,F,F]
+    p=6: zajęte = [F,F,T,F,T,T,T,F,F,F,F]
+  
+  Faza 3: Skanowanie (start=-1, pasma=[])
+    i=0: NIE zajęte[0] → start=0
+    i=1: NIE zajęte[1] → start=0 (kontynuacja)
+    i=2: zajęte[2] → dodaj [0,2), start=-1, pasma=[[0,2)]
+    i=3: NIE zajęte[3] → start=3
+    i=4: zajęte[4] → dodaj [3,4), start=-1, pasma=[[0,2),[3,4)]
+    i=5: zajęte[5] → start=-1 (bez zmian)
+    i=6: zajęte[6] → start=-1 (bez zmian)
+    i=7: NIE zajęte[7] → start=7
+    i=8: NIE zajęte[8] → start=7 (kontynuacja)
+    i=9: NIE zajęte[9] → start=7 (kontynuacja)
+    i=10: NIE zajęte[10] → start=7 (kontynuacja)
+  
+  Faza 4: start=7≠-1 → dodaj [7,11)
+    pasma = [[0,2), [3,4), [7,11)]
+  
+  Wynik: 3 pasma bezpieczne
+
+ANALIZA ZŁOŻONOŚCI:
+  
+  Złożoność czasowa: Θ(n + m)
+    Faza 1: O(n) - inicjalizacja tablicy
+    Faza 2: O(m) - zaznaczanie m prętów
+    Faza 3: O(n) - skanowanie n pozycji
+    Faza 4: O(1) - sprawdzenie warunku
+    
+    Łącznie: O(n+m) - liniowa względem sumy długości i liczby prętów
+    
+    Uwaga: To optymalny czas, bo musimy przetworzyć wszystkie dane
+  
+  Złożoność pamięciowa: Θ(n)
+    - Tablica zajętości: n bitów (lub n bajtów w praktyce)
+    - Dodatkowe zmienne: O(1)
+    - Wynik (lista pasm): O(k) gdzie k ≤ m+1
+    
+    Można zoptymalizować używając bitmap dla dużych n
+
+WARIANTY I OPTYMALIZACJE:
+  
+  1. BEZ TABLICY POMOCNICZEJ (gdy m << n):
+     - Posortuj pozycje prętów: O(m log m)
+     - Szukaj luk między kolejnymi prętami: O(m)
+     - Łączna złożoność: O(m log m)
+     - Lepsza dla rzadkich prętów (m << n)
+  
+  2. Z PRZEDZIAŁAMI PRĘTÓW (zamiast punktów):
+     - Każdy pręt ma długość [pi, pi+w)
+     - Problem redukcji do pokrycia przedziałami
+     - Podobna analiza, ale z zasięgiem prętów
+  
+  3. ZAPYTANIA ONLINE:
+     - Struktury danych interwałowe (drzewo przedziałów)
+     - Dynamiczne dodawanie/usuwanie prętów
+     - Złożoność O(log n) na zapytanie
+
+DOWÓD POPRAWNOŚCI:
+  
+  LEMAT 1 (Kompletność): Algorytm znajduje wszystkie bezpieczne pasma
+  
+  Dowód:
+    Rozważmy dowolną pozycję p wolną od prętów.
+    Algorytm skanuje wszystkie pozycje od 0 do n-1.
+    Gdy napotka p:
+    - Jeśli start=-1: rozpocznie nowe pasmo
+    - Jeśli start≠-1: kontynuuje bieżące pasmo
+    Zatem p zostanie przypisana do jakiegoś pasma.
+    
+  LEMAT 2 (Poprawność): Każde znalezione pasmo nie zawiera prętów
+  
+  Dowód:
+    Pasmo [a,b) jest dodawane tylko gdy:
+    - Wszystkie pozycje od start do i-1 mają zajęte[]=false
+    - W fazie 2 zajęte[p]=true dla każdego pręta p
+    - Zatem żaden pręt nie znajduje się w [a,b)
+  
+  LEMAT 3 (Maksymalność): Pasma są maksymalne (nie da się rozszerzyć)
+  
+  Dowód:
+    Pasmo [a,b) kończy się gdy:
+    - zajęte[b]=true (pręt na pozycji b) lub b=n (koniec korytarza)
+    - start zostaje ustawiony dopiero gdy zajęte[a-1]=true lub a=0
+    - Zatem nie można rozszerzyć ani w lewo, ani w prawo
+
+ZASTOSOWANIA I UOGÓLNIENIA:
+  
+  1. PLANOWANIE TRAS:
+     - Robot poruszający się korytarzem z przeszkodami
+     - Znajduje segmenty wolnego ruchu
+  
+  2. ZARZĄDZANIE ZASOBAMI:
+     - Identyfikacja wolnych bloków pamięci (fragmentacja)
+     - Wolne przedziały czasowe w kalendarzu
+  
+  3. ANALIZA INTERWAŁÓW:
+     - Bioinformatyka: luki w sekwencjach DNA
+     - Analiza danych: okresy bez pomiarów
+  
+  4. TEORIA GRAFÓW:
+     - Graf przedziałów (interval graph)
+     - Problem pokrycia wierzchołków
+
+ODPOWIEDZI NA PYTANIA TEORETYCZNE:
+────────────────────────────────────────────────────────────────────────
+
+Q: Jaka jest minimalna/maksymalna liczba bezpiecznych pasm?
+A: Minimalna: 0 (gdy wszystkie pozycje zajęte)
+   Maksymalna: m+1 (gdy pręty są rozrzucone, każdy izolowany)
+   
+   Przykład maksimum dla n=10, m=3:
+   Pręty na {1,4,7} → Pasma: [0,1), [2,4), [5,7), [8,10) - 4 pasma
+
+Q: Jaka jest średnia długość bezpiecznego pasma?
+A: Jeśli mamy m prętów równomiernie rozmieszczonych w n pozycjach:
+   - Wolne pozycje: n-m
+   - Liczba pasm: ≈ m+1 (w przypadku równomiernego rozmieszczenia)
+   - Średnia długość: (n-m)/(m+1)
+   
+   Dla n=100, m=20: (100-20)/21 ≈ 3.8 pozycji na pasmo
+
+Q: Co jeśli pręty mogą się nakładać lub mieć szerokość?
+A: Modyfikacja fazy 2:
+   Zamiast zajęte[p] ← true
+   Używamy: dla i od p do p+szerokość-1: zajęte[i] ← true
+   
+   Reszta algorytmu pozostaje bez zmian!
+   Złożoność rośnie do O(n + m×szerokość)
+
+Q: Jak znaleźć najdłuższe bezpieczne pasmo?
+A: Podczas fazy 3 śledź długość każdego pasma:
+   max_długość ← 0
+   max_pasmo ← null
+   
+   Gdy dodajemy pasmo [a,b):
+     jeśli b-a > max_długość:
+       max_długość ← b-a
+       max_pasmo ← [a,b)
+   
+   Złożoność nadal O(n+m)
+
+Q: Czy można algorytm zrównoleglić?
+A: Tak! Strategie:
+   1. Podział tablicy zajętości na segmenty (każdy wątek przetwarza segment)
+   2. Łączenie wyników na granicach segmentów
+   3. Scalanie listy pasm
+   
+   Przyspieszenie: prawie liniowe dla dużych n
+
+Q: Jaki jest związek z problemem pokrycia zbioru?
+A: To odwrotny problem:
+   - Pokrycie: minimalna liczba przedziałów pokrywających [0,n)
+   - Nasze: maksymalne przedziały NIE pokryte
+   
+   Problem pokrycia jest NP-trudny w ogólności,
+   ale dla przedziałów na prostej jest P (zachłanny algorytm)
+
+
+================================================================================
+PODSUMOWANIE I PORÓWNANIE ALGORYTMÓW
+================================================================================
+
+CHARAKTERYSTYKA TRZECH PROBLEMÓW:
+
+┌─────────────┬────────────────┬──────────────────┬─────────────────┐
+│ PROBLEM     │ PARADYGMAT     │ ZŁOŻONOŚĆ CZAS.  │ ZŁOŻONOŚĆ PAM.  │
+├─────────────┼────────────────┼──────────────────┼─────────────────┤
+│ Symbol      │ Programowanie  │ Θ(n) lub Θ(n×k)  │ Θ(1) lub Θ(n×k) │
+│ Newtona     │ dynamiczne /   │                  │                 │
+│             │ Bezpośrednie   │                  │                 │
+│             │ obliczenie     │                  │                 │
+├─────────────┼────────────────┼──────────────────┼─────────────────┤
+│ Generowanie │ Pełne          │ Θ(k²)            │ Θ(1)            │
+│ par 2-elem. │ przeglądanie   │ [optymalny!]     │ [optymalny!]    │
+│             │ (enumeracja)   │                  │                 │
+├─────────────┼────────────────┼──────────────────┼─────────────────┤
+│ Bezpieczne  │ Skanowanie     │ Θ(n+m)           │ Θ(n)            │
+│ pasma       │ liniowe /      │ [optymalny!]     │                 │
+│             │ Mapowanie      │                  │                 │
+└─────────────┴────────────────┴──────────────────┴─────────────────┘
+
+KLUCZOWE KONCEPCJE ALGORYTMICZNE:
+
+1. PROGRAMOWANIE DYNAMICZNE (Symbol Newtona - SN5)
+   - Rozbicie problemu na podproblemy
+   - Zapamiętywanie wyników (memoization/tabulation)
+   - Unikanie powtarzających się obliczeń
+   - Bottom-up vs Top-down
+
+2. ENUMERACJA KOMBINATORYCZNA (Pary 2-elementowe)
+   - Systematyczne generowanie wszystkich rozwiązań
+   - Kolejność leksykograficzna
+   - Unikanie duplikatów przez konstrukcję
+   - Optymalna złożoność = rozmiar wyjścia
+
+3. SKANOWANIE I MAPOWANIE (Bezpieczne pasma)
+   - Reprezentacja problemu jako tablica stanów
+   - Jednoprzebiegowe przetwarzanie
+   - Identyfikacja wzorców (sekwencji)
+   - Algorytmy online vs offline
+
+UNIWERSALNE TECHNIKI:
+
+• DEKOMPOZYCJA: Rozbicie problemu na mniejsze części
+• INDUKCJA: Budowanie rozwiązania krok po kroku
+• NIEZMIENNIKI PĘTLI: Utrzymywanie właśności w każdej iteracji
+• WARUNKI BRZEGOWE: Obsługa przypadków specjalnych (n=0, k=0, m=0)
+• ANALIZA PRZYPADKÓW: Rozważenie różnych scenariuszy
+
+WZORCE PROJEKTOWE ALGORYTMÓW:
+
+1. Dziel i zwyciężaj (Divide and Conquer)
+   - Nie zastosowano bezpośrednio
+   - Możliwe w optymalizacji SN1 (rekurencyjne obliczanie silni)
+
+2. Zachłanny (Greedy)
+   - Symbol Newtona: wybór kolejnych czynników
+   - Pary: systematyczny wybór (i,j)
+
+3. Programowanie dynamiczne
+   - Symbol Newtona SN5: klasyczny przykład
+   - Tablica DP, warunki brzegowe, rekurencja
+
+4. Brute force / Pełne przeszukiwanie
+   - Pary 2-elementowe: optymalne pełne przeszukiwanie
+   - Nie można szybciej (musimy wygenerować wszystkie)
+
+ZASTOSOWANIA W INNYCH DZIEDZINACH:
+
+Symbol Newtona:
+  • Teoria prawdopodobieństwa (rozkład dwumianowy)
+  • Kryptografia (kody korekcyjne)
+  • Analiza algorytmów (analiza przypadków)
+  • Fizyka kwantowa (stany kwantowe)
+
+Generowanie par:
+  • Uczenie maszynowe (porównania parami)
+  • Teoria grafów (krawędzie grafu pełnego)
+  • Testowanie oprogramowania (testy parami)
+  • Analiza sieci społecznych (relacje)
+
+Znajdowanie przedziałów:
+  • Planowanie zadań (wolne sloty czasowe)
+  • Zarządzanie pamięcią (wolne bloki)
+  • Kompresja danych (identyfikacja wzorców)
+  • Bioinformatyka (luki w sekwencjach)
+
+
+================================================================================
+MATEMATYCZNE PODSTAWY
+================================================================================
+
+SILNIA (Factorial):
+  n! = 1 × 2 × 3 × ... × n
+  
+  Wzrost: O(n!) - super-wykładniczy
+  Przybliżenie (wzór Stirlinga):
+    n! ≈ √(2πn) × (n/e)^n
+  
+  Logarytm silni:
+    log(n!) ≈ n×log(n) - n×log(e) + 0.5×log(2πn)
+
+DWUMIAN NEWTONA (Binomial Theorem):
+  (a+b)^n = Σ(k=0 do n) C(n,k) × a^(n-k) × b^k
+  
+  Szczególne przypadki:
+    (1+1)^n = 2^n = Σ C(n,k)      [suma wszystkich współczynników]
+    (1-1)^n = 0   = Σ (-1)^k C(n,k)  [dla n>0, naprzemienne sumy]
+
+TOŻSAMOŚCI KOMBINATORYCZNE:
+  1. C(n,k) = C(n,n-k)                    [symetria]
+  2. C(n,k) = C(n-1,k-1) + C(n-1,k)      [rekurencja Pascala]
+  3. Σ(k=0 do n) C(n,k) = 2^n            [liczba podzbiorów]
+  4. Σ(k=0 do n) k×C(n,k) = n×2^(n-1)    [średni rozmiar podzbioru]
+  5. C(n,k) = (n/k) × C(n-1,k-1)         [relacja rekurencyjna]
+
+LICZBY CATALANA (powiązane):
+  C_n = C(2n,n)/(n+1) = (1/(n+1))×C(2n,n)
+  
+  Zastosowania: drzewa binarne, nawiasowania, ścieżki w siatce
+
+FUNKCJE TWORZĄCE (Generating Functions):
+  Dla symbolu Newtona:
+    (1+x)^n = Σ(k=0 do n) C(n,k) × x^k
+  
+  Potężne narzędzie w kombinatoryce i analizie algorytmów
+
+
+================================================================================
+ZŁOŻONOŚĆ OBLICZENIOWA - TEORIA
+================================================================================
+
+NOTACJE ASYMPTOTYCZNE:
+
+O (Big-O): Górne ograniczenie
+  f(n) = O(g(n)) ⟺ ∃c,n₀: ∀n≥n₀: f(n) ≤ c×g(n)
+
+Ω (Big-Omega): Dolne ograniczenie  
+  f(n) = Ω(g(n)) ⟺ ∃c,n₀: ∀n≥n₀: f(n) ≥ c×g(n)
+
+Θ (Theta): Ścisłe ograniczenie
+  f(n) = Θ(g(n)) ⟺ f(n)=O(g(n)) ∧ f(n)=Ω(g(n))
+
+HIERARCHIA ZŁOŻONOŚCI (od najszybszej):
+  Θ(1) < Θ(log n) < Θ(√n) < Θ(n) < Θ(n log n) < Θ(n²) < 
+  Θ(n³) < Θ(2^n) < Θ(n!) < Θ(n^n)
+
+NASZE ALGORYTMY:
+  • SN1: Θ(n) - liniowa (obliczanie silni)
+  • SN5: Θ(n×k) - kwadratowa w pesymistycznym (k≈n)
+  • Pary: Θ(k²) - kwadratowa, OPTYMALNA (wynik ma rozmiar Θ(k²))
+  • Pasma: Θ(n+m) - liniowa, OPTYMALNA (musimy przeczytać dane)
+
+KLASY PROBLEMÓW:
+  P: Problemy rozwiązywalne w czasie wielomianowym
+     (Wszystkie nasze problemy są w P)
+  
+  NP: Problemy weryfikowalne w czasie wielomianowym
+  
+  NP-trudne: Co najmniej tak trudne jak najtrudniejsze w NP
+  
+  NP-zupełne: NP-trudne ∩ NP
+
+
+================================================================================
+ŹRÓDŁA I DALSZA LEKTURA
+================================================================================
+
+KSIĄŻKI:
+  1. "Introduction to Algorithms" (CLRS)
+     - Cormen, Leiserson, Rivest, Stein
+     - Biblia algorytmów, szczegółowe dowody
+  
+  2. "The Art of Computer Programming" Vol. 1-4
+     - Donald Knuth
+     - Głęboka analiza matematyczna algorytmów
+  
+  3. "Concrete Mathematics"
+     - Graham, Knuth, Patashnik
+     - Matematyka dla informatyków, kombinatoryka
+  
+  4. "Algorytmy i struktury danych"
+     - Banachowski, Diks, Rytter
+     - Polskojęzyczne opracowanie
+
+ZASOBY ONLINE:
+  • MIT OpenCourseWare - 6.006 Introduction to Algorithms
+  • GeeksforGeeks.org - tutoriale i implementacje
+  • Wikipedia - artykuły o kombinatoryce i algorytmach
+  • OEIS (Online Encyclopedia of Integer Sequences)
+
+PRAKTYKA:
+  • LeetCode, HackerRank - zadania algorytmiczne
+  • Project Euler - problemy matematyczno-algorytmiczne
+  • Codeforces, AtCoder - konkursy programistyczne
+
+
+================================================================================
+SPOSÓB URUCHOMIENIA PROGRAMÓW
+================================================================================
+
+Każdy projekt można uruchomić w następujący sposób:
+
+1. Zadanie I-V (Symbol Newtona):
+   cd "PS1\Zadanie I-V\Zadanie1_I_V"
+   dotnet run
+   Wyniki w: Out0101.txt
+
+2. Zadanie II (Pary 2-elementowe):
+   cd "PS1\Zadanie II\Zadanie2"
+   dotnet run
+   Wyniki w: Out0102.txt
+
+3. Zadanie IV (Bezpieczne pasma):
+   cd "PS1\Zadanie IV\Zadanie4"
+   dotnet run
+   Wyniki w: Out0104.txt
+
+
+================================================================================
+KONIEC DOKUMENTU
+================================================================================
+
+Data wygenerowania: 25 października 2025
+Wersja dokumentu: 2.0 (Edycja teoretyczna)
+Nacisk: Teoria algorytmów, matematyka, analiza złożoności
+
+Autor dokumentacji: GitHub Copilot
+Repozytorium: Algorytmy_SEM_III (KgKurys)
+
+     dotnet new webapi -n AlgorytmyAPI
+     Przenieś logikę algorytmów do kontrolerów jako endpointy.
+
+Q20: Gdzie mogę znaleźć więcej informacji o algorytmach?
+A20: Zasoby:
+     - "Introduction to Algorithms" (CLRS)
+     - GeeksforGeeks.org
+     - YouTube: Abdul Bari, MIT OpenCourseWare
+     - Coursera/Udemy kursy algorytmów
+     - StackOverflow dla konkretnych pytań
+
+
+================================================================================
+KONIEC DOKUMENTU
+================================================================================
+Data wygenerowania: 25 października 2025
+Wersja dokumentu: 1.0
