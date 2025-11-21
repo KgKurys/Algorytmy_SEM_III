@@ -222,9 +222,6 @@ namespace AlgorytmySEM3
         }
 
         // ===== ALGORYTM V - Symbol Newtona przez Trójkąt Pascala (tablica 2D) - ZOPTYMALIZOWANY =====
-        // Wykorzystuje własność: C(n,k) = C(n-1,k-1) + C(n-1,k)
-        // Operacja elementarna: dodawanie
-        // Optymalizacja: budujemy tylko do k-tej kolumny zamiast całego rzędu
         static (long wynik, int operacje) AlgorytmV_SymbolNewtona(int n, int k)
         {
             int operacje = 0;
@@ -420,9 +417,6 @@ namespace AlgorytmySEM3
         }
 
         // ===== ALGORYTM I - Zachłanny (optymalny) =====
-        // Sortowanie + Two Pointers
-        // Operacja elementarna: porównanie
-        // Złożoność: O(n log n) sortowanie + O(n) parowanie
         static (List<List<int>> zbiory, int operacje) AlgorytmI_Zbiory(int n, int k, int[] liczby)
         {
             int operacje = 0;
@@ -479,9 +473,6 @@ namespace AlgorytmySEM3
         }
 
         // ===== ALGORYTM II - Naiwny =====
-        // Dla każdej liczby szuka pary liniowo
-        // Operacja elementarna: porównanie
-        // Złożoność: O(n²)
         static (List<List<int>> zbiory, int operacje) AlgorytmII_Zbiory(int n, int k, int[] liczby)
         {
             int operacje = 0;
@@ -563,20 +554,30 @@ namespace AlgorytmySEM3
 
         static void UruchomAlgorytmSejfu1()
         {
+
+            
             Console.Clear();
             Console.WriteLine("=== Algorytm I - Scalanie przedziałów (optymalny) ===\n");
 
             var (n, prety) = WczytajDaneSejfu();
-            var (pasma, operacje) = AlgorytmI_Sejf(n, prety);
+            var (pasma, operacje, scalone) = AlgorytmI_Sejf(n, prety);
 
             Console.WriteLine($"\nLiczba bezpiecznych pasm: {pasma.Count}");
             Console.WriteLine($"Liczba operacji elementarnych: {operacje}");
+            
+            //WyswietlScalonePrety(scalone);
+            
             Console.WriteLine("\nBezpieczne pasma:");
             foreach (var pasmo in pasma)
             {
                 Console.WriteLine($"{pasmo.Item1} {pasmo.Item2}");
             }
-
+            
+            // Console.WriteLine("\nWczytane pręty:");
+            // foreach (var pret in prety)
+            // {
+            // Console.WriteLine($"({pret.x1}, {pret.y1}) -> ({pret.x2}, {pret.y2})");
+            // }
             // Zapis do pliku
             ZapiszWynikiSejfu(pasma, "Out0104.txt");
 
@@ -601,6 +602,12 @@ namespace AlgorytmySEM3
                 Console.WriteLine($"{pasmo.Item1} {pasmo.Item2}");
             }
 
+            // Console.WriteLine("\nWczytane pręty:");
+            // foreach (var pret in prety)
+            // {
+            // Console.WriteLine($"({pret.x1}, {pret.y1}) -> ({pret.x2}, {pret.y2})");
+            // }
+
             // Zapis do pliku
             ZapiszWynikiSejfu(pasma, "Out0104.txt");
 
@@ -617,9 +624,10 @@ namespace AlgorytmySEM3
             var (n, prety) = WczytajDaneSejfu();
 
             Console.WriteLine("\n--- Algorytm I (Scalanie przedziałów - optymalny) ---");
-            var (pasma1, operacje1) = AlgorytmI_Sejf(n, prety.ToArray());
+            var (pasma1, operacje1, scalone1) = AlgorytmI_Sejf(n, prety.ToArray());
             Console.WriteLine($"Liczba bezpiecznych pasm: {pasma1.Count}");
             Console.WriteLine($"Liczba operacji: {operacje1}");
+            //WyswietlScalonePrety(scalone1);
 
             Console.WriteLine("\n--- Algorytm II (Brute force) ---");
             var (pasma2, operacje2) = AlgorytmII_Sejf(n, prety.ToArray());
@@ -662,6 +670,7 @@ namespace AlgorytmySEM3
                 }
 
                 Console.WriteLine($"Wczytano z pliku: n = {n}, m = {m}");
+                
                 return (n, prety);
             }
             else
@@ -690,6 +699,15 @@ namespace AlgorytmySEM3
             }
         }
 
+        static void WyswietlScalonePrety(List<(int y1, int y2)> scalone)
+        {
+            Console.WriteLine("\nScalone pręty:");
+            foreach (var pret in scalone)
+            {
+                Console.WriteLine($"{pret.y1} {pret.y2}");
+            }
+        }
+
         static void ZapiszWynikiSejfu(List<(int y1, int y2)> pasma, string nazwaPliku)
         {
             using (StreamWriter sw = new StreamWriter(nazwaPliku))
@@ -703,13 +721,7 @@ namespace AlgorytmySEM3
         }
 
         // ===== ALGORYTM I - Scalanie przedziałów (optymalny) =====
-        // 1. Zbierz zajęte pasma (y1, y2) z wszystkich prętów
-        // 2. Posortuj przedziały według punktu początkowego
-        // 3. Scal nakładające się przedziały
-        // 4. Znajdź luki między scalonymi przedziałami
-        // Operacja elementarna: porównanie
-        // Złożoność: O(m log m) sortowanie + O(m) scalanie + O(m) szukanie luk = O(m log m)
-        static (List<(int y1, int y2)> pasma, int operacje) AlgorytmI_Sejf(int n, (int x1, int y1, int x2, int y2)[] prety)
+        static (List<(int y1, int y2)> pasma, int operacje, List<(int y1, int y2)> scalone) AlgorytmI_Sejf(int n, (int x1, int y1, int x2, int y2)[] prety)
         {
             int operacje = 0;
             List<(int y1, int y2)> bezpiecznePasma = new List<(int, int)>();
@@ -726,7 +738,7 @@ namespace AlgorytmySEM3
                 // Brak prętów - cały korytarz bezpieczny
                 if (n > 0)
                     bezpiecznePasma.Add((0, n));
-                return (bezpiecznePasma, operacje);
+                return (bezpiecznePasma, operacje, new List<(int, int)>());
             }
 
             // Krok 2: Sortuj przedziały według punktu początkowego
@@ -770,6 +782,7 @@ namespace AlgorytmySEM3
                 pozycja = Math.Max(pozycja, zajete.y2);
             }
 
+
             // Sprawdź czy jest luka na końcu
             operacje++;
             if (pozycja < n)
@@ -777,13 +790,10 @@ namespace AlgorytmySEM3
                 bezpiecznePasma.Add((pozycja, n));
             }
 
-            return (bezpiecznePasma, operacje);
+            return (bezpiecznePasma, operacje, scalone);
         }
 
         // ===== ALGORYTM II - Brute force =====
-        // Dla każdego punktu y w przedziale [0, n] sprawdza czy jest bezpieczny
-        // Operacja elementarna: porównanie
-        // Złożoność: O(n * m) - dla każdego punktu sprawdzamy wszystkie pręty
         static (List<(int y1, int y2)> pasma, int operacje) AlgorytmII_Sejf(int n, (int x1, int y1, int x2, int y2)[] prety)
         {
             int operacje = 0;

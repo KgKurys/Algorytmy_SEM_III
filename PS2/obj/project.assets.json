@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
-      "projectName": "PS1",
-      "projectPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
+      "projectUniqueName": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\PS2.csproj",
+      "projectName": "PS2",
+      "projectPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\PS2.csproj",
       "packagesPath": "C:\\Users\\kggra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\obj\\",
+      "outputPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kggra\\AppData\\Roaming\\NuGet\\NuGet.Config"

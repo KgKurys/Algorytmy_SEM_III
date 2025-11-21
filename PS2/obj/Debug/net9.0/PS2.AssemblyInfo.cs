@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("PS1")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("PS2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75b23c8cb2422ed343a6a8a141671c1ac0944cae")]
-[assembly: System.Reflection.AssemblyProductAttribute("PS1")]
-[assembly: System.Reflection.AssemblyTitleAttribute("PS1")]
+[assembly: System.Reflection.AssemblyProductAttribute("PS2")]
+[assembly: System.Reflection.AssemblyTitleAttribute("PS2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Wygenerowane przez klasę WriteCodeFragment programu MSBuild.
