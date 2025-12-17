@@ -13,19 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
-      "projectName": "PS1",
-      "projectPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
+      "projectUniqueName": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\PS2.csproj",
+      "projectName": "PS2",
+      "projectPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\PS2.csproj",
       "packagesPath": "C:\\Users\\kggra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
-      "projectName": "PS1",
-      "projectPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
-      "packagesPath": "C:\\Users\\kggra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\ps1\\obj\\",
->>>>>>> 5f2c82979a52ff9470d97461d1a15e2f13d9029b
+      "outputPath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kggra\\AppData\\Roaming\\NuGet\\NuGet.Config"

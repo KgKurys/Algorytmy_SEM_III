@@ -1,8 +1,12 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "BwYp5lvOj2A=",
+=======
+  "dgSpecHash": "i9dIXfqdVPg=",
+>>>>>>> 5f2c82979a52ff9470d97461d1a15e2f13d9029b
   "success": true,
-  "projectFilePath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\PS1\\PS1.csproj",
+  "projectFilePath": "C:\\Users\\kggra\\Desktop\\Algorytmy_SEM_III\\PS1\\PS1.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
