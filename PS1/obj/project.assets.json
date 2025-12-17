@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\PS1\\PS1.csproj",
+      "projectUniqueName": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
       "projectName": "PS1",
-      "projectPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\PS1\\PS1.csproj",
+      "projectPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\PS1.csproj",
       "packagesPath": "C:\\Users\\kggra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\PS1\\obj\\",
+      "outputPath": "C:\\Users\\kggra\\Documents\\GIT\\Algorytmy_SEM_III\\ps1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kggra\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
