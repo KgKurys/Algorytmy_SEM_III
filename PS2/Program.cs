@@ -383,7 +383,7 @@ namespace PS2
             double fc = ObliczFunkcje(c, funkcjaStr);
 
             // Sprawdź czy znaleźliśmy pierwiastek
-            if (Math.Abs(fc) < epsilon)
+            if (fc == 0)
             {
                 return c;
             }

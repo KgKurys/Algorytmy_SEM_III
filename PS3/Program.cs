@@ -41,32 +41,20 @@ namespace PS3
 
         static void WykonajProblem1()
         {
-            Console.Clear();
-            Console.WriteLine("=== PROBLEM 1 - SUBKOD GENETYCZNY ===\n");
-
             string nazwaWej = "In0301.txt";
             string nazwaWyj = "Out0301.txt";
 
             if (!File.Exists(nazwaWej))
-            {
-                Console.WriteLine($"Plik {nazwaWej} nie istnieje!");
-                Console.ReadKey();
                 return;
-            }
 
             try
             {
                 string[] linie = File.ReadAllLines(nazwaWej);
                 
                 if (linie.Length < 1)
-                {
-                    Console.WriteLine("Plik jest nieprawidłowy!");
-                    Console.ReadKey();
                     return;
-                }
 
                 int n = int.Parse(linie[0].Trim());
-                Console.WriteLine($"Liczba par odmian: {n}\n");
 
                 List<string> wyniki = new List<string>();
 
@@ -75,36 +63,20 @@ namespace PS3
                     string charakterystyka1 = linie[1 + i * 2].Trim();
                     string charakterystyka2 = linie[2 + i * 2].Trim();
 
-                    Console.WriteLine($"Para {i + 1}:");
-                    Console.WriteLine($"  Charakterystyka 1: {charakterystyka1}");
-                    Console.WriteLine($"  Charakterystyka 2: {charakterystyka2}");
-
                     // Znajdź najdłuższy wspólny podciąg (subkod genetyczny)
                     string lcs = ZnajdzNajdluzszyWspolnyPodciag(charakterystyka1, charakterystyka2);
-                    
-                    Console.WriteLine($"  Subkod genetyczny: {lcs}");
-                    Console.WriteLine($"  Długość subkodu: {lcs.Length}\n");
 
                     wyniki.Add($"{lcs.Length} {lcs}");
                 }
 
                 // Zapisz wyniki
                 File.WriteAllLines(nazwaWyj, wyniki);
-                Console.WriteLine($"Wyniki zapisano do pliku: {nazwaWyj}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Błąd: {ex.Message}");
             }
-
-            Console.WriteLine("\nNaciśnij dowolny klawisz...");
-            Console.ReadKey();
         }
 
-        /// <summary>
-        /// Znajduje najdłuższy wspólny podciąg (LCS) dwóch ciągów
-        /// używając programowania dynamicznego
-        /// </summary>
         static string ZnajdzNajdluzszyWspolnyPodciag(string s1, string s2)
         {
             int m = s1.Length;
@@ -136,9 +108,6 @@ namespace PS3
             return OdtworzLCS(s1, s2, dp, m, n);
         }
 
-        /// <summary>
-        /// Rekurencyjne odtwarzanie LCS z tablicy DP
-        /// </summary>
         static string OdtworzLCS(string s1, string s2, int[,] dp, int i, int j)
         {
             // Warunek bazowy
@@ -183,32 +152,20 @@ namespace PS3
 
         static void WykonajProblem3()
         {
-            Console.Clear();
-            Console.WriteLine("=== PROBLEM 3 - ALGORYTM KRUSKALA ===\n");
-
             string nazwaWej = "In0303.txt";
             string nazwaWyj = "Out0303.txt";
 
             if (!File.Exists(nazwaWej))
-            {
-                Console.WriteLine($"Plik {nazwaWej} nie istnieje!");
-                Console.ReadKey();
                 return;
-            }
 
             try
             {
                 string[] linie = File.ReadAllLines(nazwaWej);
                 
                 if (linie.Length < 1)
-                {
-                    Console.WriteLine("Plik jest nieprawidłowy!");
-                    Console.ReadKey();
                     return;
-                }
 
                 int n = int.Parse(linie[0].Trim()); // liczba wierzchołków
-                Console.WriteLine($"Liczba wierzchołków: {n}");
 
                 // Wczytaj listy incydencji i utwórz listę krawędzi
                 List<Krawedz> krawedzie = new List<Krawedz>();
@@ -236,53 +193,32 @@ namespace PS3
                     }
                 }
 
-                Console.WriteLine($"Liczba krawędzi: {krawedzie.Count}\n");
-
-                // Sortowanie krawędzi przez scalanie (O(m log m))
+                // Sortowanie krawędzi przez scalanie
                 List<Krawedz> posortowaneKrawedzie = MergeSort(krawedzie);
-
-                Console.WriteLine("Krawędzie posortowane wg wag:");
-                foreach (var k in posortowaneKrawedzie)
-                {
-                    Console.WriteLine($"  ({k.Poczatek}, {k.Koniec}) - waga: {k.Waga}");
-                }
 
                 // Algorytm Kruskala
                 List<Krawedz> mst = Kruskal(n, posortowaneKrawedzie);
 
-                Console.WriteLine("\nKrawędzie MST:");
                 int sumaWag = 0;
                 List<string> wynikiKrawedzi = new List<string>();
 
                 foreach (var k in mst)
                 {
-                    Console.WriteLine($"  {k.Poczatek} {k.Koniec} [{k.Waga}]");
                     wynikiKrawedzi.Add($"{k.Poczatek} {k.Koniec} [{k.Waga}]");
                     sumaWag += k.Waga;
                 }
-
-                Console.WriteLine($"\nSuma wag MST: {sumaWag}");
 
                 // Zapisz wyniki
                 List<string> wyniki = new List<string>();
                 wyniki.Add(string.Join(", ", wynikiKrawedzi));
                 wyniki.Add(sumaWag.ToString());
                 File.WriteAllLines(nazwaWyj, wyniki);
-                Console.WriteLine($"\nWyniki zapisano do pliku: {nazwaWyj}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Błąd: {ex.Message}");
             }
-
-            Console.WriteLine("\nNaciśnij dowolny klawisz...");
-            Console.ReadKey();
         }
 
-        /// <summary>
-        /// Sortowanie przez scalanie (Merge Sort) - O(n log n)
-        /// Implementacja rekurencyjna
-        /// </summary>
         static List<Krawedz> MergeSort(List<Krawedz> lista)
         {
             // Warunek bazowy
@@ -304,9 +240,6 @@ namespace PS3
             return Merge(lewa, prawa);
         }
 
-        /// <summary>
-        /// Scalanie dwóch posortowanych list
-        /// </summary>
         static List<Krawedz> Merge(List<Krawedz> lewa, List<Krawedz> prawa)
         {
             List<Krawedz> wynik = new List<Krawedz>();
@@ -342,9 +275,6 @@ namespace PS3
             return wynik;
         }
 
-        /// <summary>
-        /// Algorytm Kruskala do znajdowania minimalnego drzewa rozpinającego
-        /// </summary>
         static List<Krawedz> Kruskal(int n, List<Krawedz> krawedzie)
         {
             List<Krawedz> mst = new List<Krawedz>();
@@ -383,9 +313,6 @@ namespace PS3
             return mst;
         }
 
-        /// <summary>
-        /// Find z kompresją ścieżki (rekurencyjnie)
-        /// </summary>
         static int Find(int[] rodzic, int x)
         {
             if (rodzic[x] != x)
@@ -395,9 +322,6 @@ namespace PS3
             return rodzic[x];
         }
 
-        /// <summary>
-        /// Union z rangą
-        /// </summary>
         static void Union(int[] rodzic, int[] ranga, int x, int y)
         {
             if (ranga[x] < ranga[y])
