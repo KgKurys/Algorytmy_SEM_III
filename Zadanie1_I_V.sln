@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PS1", "PS1", "{3F4275B6-6D2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS1", "PS1\PS1.csproj", "{DE3611F0-494B-4546-83AE-B9C671D5E21E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS3", "PS3\PS3.csproj", "{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,18 @@ Global
 		{DE3611F0-494B-4546-83AE-B9C671D5E21E}.Release|x64.Build.0 = Release|Any CPU
 		{DE3611F0-494B-4546-83AE-B9C671D5E21E}.Release|x86.ActiveCfg = Release|Any CPU
 		{DE3611F0-494B-4546-83AE-B9C671D5E21E}.Release|x86.Build.0 = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|x64.ActiveCfg = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|x64.Build.0 = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEB8D8A0-599B-4DC7-8E11-00D8845B918A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
